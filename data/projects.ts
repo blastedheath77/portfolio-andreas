@@ -43,6 +43,16 @@ export const projects: Project[] = [
   },
   {
     id: 4,
+    title: "FM Synth Trainer",
+    category: "Audio Education",
+    description:
+      "An interactive browser-based tool for learning FM synthesis fundamentals. Students can adjust carrier and modulator frequencies, modulation index, and envelope settings in real time, hearing the results instantly through the Web Audio API. Designed to demystify FM synthesis for sound production and music technology students.",
+    url: "https://fm-synth-trainer.vercel.app/",
+    techTags: ["React", "Web Audio API", "FM Synthesis"],
+    screenshot: "/screenshots/FMsynthTrainer.png",
+  },
+  {
+    id: 5,
     title: "Signal Flow Diagram App",
     category: "Sound Education",
     description:
@@ -52,7 +62,7 @@ export const projects: Project[] = [
     screenshot: "/screenshots/SignalFlow.png",
   },
   {
-    id: 5,
+    id: 6,
     title: "Lighting Simulator",
     category: "Education — Lighting",
     description:
@@ -62,7 +72,7 @@ export const projects: Project[] = [
     screenshot: "/screenshots/Lightatron.png",
   },
   {
-    id: 6,
+    id: 7,
     title: "Pickleball Stats Tracker",
     category: "Community App",
     description:
