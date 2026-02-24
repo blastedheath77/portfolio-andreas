@@ -8,6 +8,8 @@ import { projects } from "@/data/projects";
 
 export default function ProjectsShowcase() {
   const [active, setActive] = useState(0);
+  const [hoveredTab, setHoveredTab] = useState<number | null>(null);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
   const project = projects[active];
 
   return (
@@ -15,21 +17,36 @@ export default function ProjectsShowcase() {
       {/* Tab bar */}
       <div
         className="sticky top-0 z-20 w-full overflow-x-auto"
-        style={{ background: "rgba(8,10,14,0.92)", backdropFilter: "blur(12px)", borderBottom: "1px solid var(--border-subtle)" }}
+        style={{
+          background: "rgba(8,10,14,0.92)",
+          backdropFilter: "blur(12px)",
+          borderBottom: "1px solid var(--border-subtle)",
+        }}
       >
         <div className="flex min-w-max px-6 md:px-12 lg:px-20">
           {projects.map((p, i) => {
             const isActive = i === active;
+            const isHovered = hoveredTab === i;
+
             return (
               <button
                 key={p.id}
                 onClick={() => setActive(i)}
-                className="relative flex items-center gap-2.5 px-5 py-4 transition-colors duration-200 flex-shrink-0 group"
+                onMouseEnter={() => setHoveredTab(i)}
+                onMouseLeave={() => setHoveredTab(null)}
+                className="relative flex items-center gap-2.5 px-5 py-4 flex-shrink-0"
                 style={{
-                  background: "none",
+                  background: isHovered && !isActive
+                    ? "rgba(0,245,255,0.04)"
+                    : "transparent",
                   border: "none",
                   cursor: "pointer",
-                  color: isActive ? "var(--text-primary)" : "var(--text-muted)",
+                  color: isActive
+                    ? "var(--text-primary)"
+                    : isHovered
+                    ? "var(--text-primary)"
+                    : "var(--text-muted)",
+                  transition: "background 0.2s, color 0.2s",
                 }}
               >
                 {/* Number */}
@@ -37,7 +54,11 @@ export default function ProjectsShowcase() {
                   style={{
                     fontFamily: "var(--font-mono)",
                     fontSize: "0.65rem",
-                    color: isActive ? "var(--accent)" : "var(--text-muted)",
+                    color: isActive
+                      ? "var(--accent)"
+                      : isHovered
+                      ? "rgba(0,245,255,0.6)"
+                      : "var(--text-muted)",
                     letterSpacing: "0.08em",
                     transition: "color 0.2s",
                   }}
@@ -63,6 +84,13 @@ export default function ProjectsShowcase() {
                     className="absolute bottom-0 left-0 right-0 h-px"
                     style={{ background: "var(--accent)" }}
                     transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                  />
+                )}
+                {/* Hover underline (inactive tabs only) */}
+                {isHovered && !isActive && (
+                  <div
+                    className="absolute bottom-0 left-0 right-0 h-px"
+                    style={{ background: "rgba(0,245,255,0.3)" }}
                   />
                 )}
               </button>
@@ -93,11 +121,15 @@ export default function ProjectsShowcase() {
               >
                 {project.screenshot ? (
                   <div
+                    onClick={() => setLightboxOpen(true)}
                     style={{
                       display: "flex",
                       justifyContent: project.screenshotMaxWidth ? "center" : undefined,
                       padding: project.screenshotMaxWidth ? "2rem" : undefined,
+                      cursor: "zoom-in",
+                      position: "relative",
                     }}
+                    title="Click to enlarge"
                   >
                     <Image
                       src={project.screenshot}
@@ -109,9 +141,35 @@ export default function ProjectsShowcase() {
                         width: project.screenshotMaxWidth ?? "100%",
                         height: "auto",
                         display: "block",
+                        transition: "opacity 0.2s",
                       }}
                       priority
                     />
+                    {/* Expand hint overlay */}
+                    <div
+                      className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-200"
+                      style={{ background: "rgba(8,10,14,0.45)" }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "8px",
+                          fontFamily: "var(--font-mono)",
+                          fontSize: "0.7rem",
+                          color: "var(--accent)",
+                          letterSpacing: "0.12em",
+                          textTransform: "uppercase",
+                          border: "1px solid rgba(0,245,255,0.4)",
+                          padding: "8px 16px",
+                        }}
+                      >
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                          <path d="M1 5V1H5M9 1H13V5M13 9V13H9M5 13H1V9" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                        Expand
+                      </div>
+                    </div>
                   </div>
                 ) : (
                   <div
@@ -170,7 +228,7 @@ export default function ProjectsShowcase() {
                 href={project.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 self-start group/cta"
+                className="inline-flex items-center gap-3 self-start"
                 style={{
                   fontFamily: "var(--font-mono)",
                   fontSize: "0.78rem",
@@ -229,6 +287,72 @@ export default function ProjectsShowcase() {
           </div>
         </div>
       </div>
+
+      {/* Lightbox */}
+      <AnimatePresence>
+        {lightboxOpen && project.screenshot && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={() => setLightboxOpen(false)}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-10"
+            style={{ background: "rgba(4,6,9,0.92)", backdropFilter: "blur(8px)", cursor: "zoom-out" }}
+          >
+            {/* Close button */}
+            <button
+              onClick={() => setLightboxOpen(false)}
+              className="absolute top-5 right-5 flex items-center gap-2"
+              style={{
+                background: "none",
+                border: "1px solid var(--border-card)",
+                color: "var(--text-muted)",
+                fontFamily: "var(--font-mono)",
+                fontSize: "0.7rem",
+                letterSpacing: "0.1em",
+                padding: "6px 12px",
+                cursor: "pointer",
+                transition: "color 0.2s, border-color 0.2s",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = "var(--accent)";
+                e.currentTarget.style.borderColor = "var(--accent)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = "var(--text-muted)";
+                e.currentTarget.style.borderColor = "var(--border-card)";
+              }}
+            >
+              ESC
+            </button>
+
+            <motion.div
+              initial={{ scale: 0.92, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                maxWidth: "min(90vw, 1400px)",
+                maxHeight: "90vh",
+                overflow: "auto",
+                border: "1px solid var(--border-card)",
+                boxShadow: "0 0 80px rgba(0,245,255,0.06)",
+              }}
+            >
+              <Image
+                src={project.screenshot}
+                alt={`${project.title} screenshot`}
+                width={0}
+                height={0}
+                sizes="90vw"
+                style={{ width: "100%", height: "auto", display: "block" }}
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
