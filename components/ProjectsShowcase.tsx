@@ -9,8 +9,28 @@ import { projects } from "@/data/projects";
 export default function ProjectsShowcase() {
   const [active, setActive] = useState(0);
   const [hoveredTab, setHoveredTab] = useState<number | null>(null);
+  const [screenshotIndex, setScreenshotIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
+
   const project = projects[active];
+  const screenshots = project.screenshots ?? [];
+  const currentScreenshot = screenshots[screenshotIndex];
+  const hasMultiple = screenshots.length > 1;
+
+  function handleTabChange(i: number) {
+    setActive(i);
+    setScreenshotIndex(0);
+  }
+
+  function prevScreenshot(e: React.MouseEvent) {
+    e.stopPropagation();
+    setScreenshotIndex((idx) => (idx - 1 + screenshots.length) % screenshots.length);
+  }
+
+  function nextScreenshot(e: React.MouseEvent) {
+    e.stopPropagation();
+    setScreenshotIndex((idx) => (idx + 1) % screenshots.length);
+  }
 
   return (
     <section id="projects" className="relative w-full">
@@ -27,45 +47,32 @@ export default function ProjectsShowcase() {
           {projects.map((p, i) => {
             const isActive = i === active;
             const isHovered = hoveredTab === i;
-
             return (
               <button
                 key={p.id}
-                onClick={() => setActive(i)}
+                onClick={() => handleTabChange(i)}
                 onMouseEnter={() => setHoveredTab(i)}
                 onMouseLeave={() => setHoveredTab(null)}
                 className="relative flex items-center gap-2.5 px-5 py-4 flex-shrink-0"
                 style={{
-                  background: isHovered && !isActive
-                    ? "rgba(0,245,255,0.04)"
-                    : "transparent",
+                  background: isHovered && !isActive ? "rgba(0,245,255,0.04)" : "transparent",
                   border: "none",
                   cursor: "pointer",
-                  color: isActive
-                    ? "var(--text-primary)"
-                    : isHovered
-                    ? "var(--text-primary)"
-                    : "var(--text-muted)",
+                  color: isActive || isHovered ? "var(--text-primary)" : "var(--text-muted)",
                   transition: "background 0.2s, color 0.2s",
                 }}
               >
-                {/* Number */}
                 <span
                   style={{
                     fontFamily: "var(--font-mono)",
                     fontSize: "0.65rem",
-                    color: isActive
-                      ? "var(--accent)"
-                      : isHovered
-                      ? "rgba(0,245,255,0.6)"
-                      : "var(--text-muted)",
+                    color: isActive ? "var(--accent)" : isHovered ? "rgba(0,245,255,0.6)" : "var(--text-muted)",
                     letterSpacing: "0.08em",
                     transition: "color 0.2s",
                   }}
                 >
                   {String(p.id).padStart(2, "0")}
                 </span>
-                {/* Title */}
                 <span
                   style={{
                     fontFamily: "var(--font-syne)",
@@ -77,7 +84,6 @@ export default function ProjectsShowcase() {
                 >
                   {p.title}
                 </span>
-                {/* Active underline */}
                 {isActive && (
                   <motion.div
                     layoutId="tab-indicator"
@@ -86,7 +92,6 @@ export default function ProjectsShowcase() {
                     transition={{ type: "spring", stiffness: 380, damping: 32 }}
                   />
                 )}
-                {/* Hover underline (inactive tabs only) */}
                 {isHovered && !isActive && (
                   <div
                     className="absolute bottom-0 left-0 right-0 h-px"
@@ -119,58 +124,148 @@ export default function ProjectsShowcase() {
                   border: "1px solid var(--border-card)",
                 }}
               >
-                {project.screenshot ? (
-                  <div
-                    onClick={() => setLightboxOpen(true)}
-                    style={{
-                      display: "flex",
-                      justifyContent: project.screenshotMaxWidth ? "center" : undefined,
-                      padding: project.screenshotMaxWidth ? "2rem" : undefined,
-                      cursor: "zoom-in",
-                      position: "relative",
-                    }}
-                    title="Click to enlarge"
-                  >
-                    <Image
-                      src={project.screenshot}
-                      alt={`${project.title} screenshot`}
-                      width={0}
-                      height={0}
-                      sizes="(max-width: 1024px) 100vw, 60vw"
-                      style={{
-                        width: project.screenshotMaxWidth ?? "100%",
-                        height: "auto",
-                        display: "block",
-                        transition: "opacity 0.2s",
-                      }}
-                      priority
-                    />
-                    {/* Expand hint overlay */}
-                    <div
-                      className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-200"
-                      style={{ background: "rgba(8,10,14,0.45)" }}
-                    >
-                      <div
+                {currentScreenshot ? (
+                  <>
+                    {/* Image + expand overlay */}
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={screenshotIndex}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        onClick={() => setLightboxOpen(true)}
                         style={{
                           display: "flex",
-                          alignItems: "center",
-                          gap: "8px",
-                          fontFamily: "var(--font-mono)",
-                          fontSize: "0.7rem",
-                          color: "var(--accent)",
-                          letterSpacing: "0.12em",
-                          textTransform: "uppercase",
-                          border: "1px solid rgba(0,245,255,0.4)",
-                          padding: "8px 16px",
+                          justifyContent: project.screenshotMaxWidth ? "center" : undefined,
+                          padding: project.screenshotMaxWidth ? "2rem" : undefined,
+                          cursor: "zoom-in",
+                          position: "relative",
                         }}
+                        title="Click to enlarge"
                       >
-                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                          <path d="M1 5V1H5M9 1H13V5M13 9V13H9M5 13H1V9" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                        Expand
+                        <Image
+                          src={currentScreenshot}
+                          alt={`${project.title} screenshot ${screenshotIndex + 1}`}
+                          width={0}
+                          height={0}
+                          sizes="(max-width: 1024px) 100vw, 60vw"
+                          style={{
+                            width: project.screenshotMaxWidth ?? "100%",
+                            height: "auto",
+                            display: "block",
+                          }}
+                          priority
+                        />
+                        {/* Expand hint */}
+                        <div
+                          className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-200"
+                          style={{ background: "rgba(8,10,14,0.45)" }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "8px",
+                              fontFamily: "var(--font-mono)",
+                              fontSize: "0.7rem",
+                              color: "var(--accent)",
+                              letterSpacing: "0.12em",
+                              textTransform: "uppercase",
+                              border: "1px solid rgba(0,245,255,0.4)",
+                              padding: "8px 16px",
+                            }}
+                          >
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                              <path d="M1 5V1H5M9 1H13V5M13 9V13H9M5 13H1V9" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                            Expand
+                          </div>
+                        </div>
+                      </motion.div>
+                    </AnimatePresence>
+
+                    {/* Arrow navigation */}
+                    {hasMultiple && (
+                      <div
+                        className="flex items-center justify-between px-3 py-2"
+                        style={{ borderTop: "1px solid var(--border-subtle)" }}
+                      >
+                        {/* Dot indicators */}
+                        <div className="flex items-center gap-1.5">
+                          {screenshots.map((_, i) => (
+                            <button
+                              key={i}
+                              onClick={() => setScreenshotIndex(i)}
+                              style={{
+                                width: i === screenshotIndex ? "16px" : "6px",
+                                height: "6px",
+                                borderRadius: "3px",
+                                background: i === screenshotIndex ? "var(--accent)" : "var(--text-muted)",
+                                border: "none",
+                                cursor: "pointer",
+                                padding: 0,
+                                transition: "width 0.25s ease, background 0.2s",
+                              }}
+                              aria-label={`Screenshot ${i + 1}`}
+                            />
+                          ))}
+                        </div>
+
+                        {/* Prev / Next */}
+                        <div className="flex items-center gap-1">
+                          <button
+                            onClick={prevScreenshot}
+                            style={{
+                              background: "none",
+                              border: "1px solid var(--border-card)",
+                              color: "var(--text-muted)",
+                              cursor: "pointer",
+                              padding: "4px 10px",
+                              fontFamily: "var(--font-mono)",
+                              fontSize: "0.75rem",
+                              transition: "color 0.2s, border-color 0.2s",
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.color = "var(--accent)";
+                              e.currentTarget.style.borderColor = "var(--accent)";
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.color = "var(--text-muted)";
+                              e.currentTarget.style.borderColor = "var(--border-card)";
+                            }}
+                            aria-label="Previous screenshot"
+                          >
+                            ←
+                          </button>
+                          <button
+                            onClick={nextScreenshot}
+                            style={{
+                              background: "none",
+                              border: "1px solid var(--border-card)",
+                              color: "var(--text-muted)",
+                              cursor: "pointer",
+                              padding: "4px 10px",
+                              fontFamily: "var(--font-mono)",
+                              fontSize: "0.75rem",
+                              transition: "color 0.2s, border-color 0.2s",
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.color = "var(--accent)";
+                              e.currentTarget.style.borderColor = "var(--accent)";
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.color = "var(--text-muted)";
+                              e.currentTarget.style.borderColor = "var(--border-card)";
+                            }}
+                            aria-label="Next screenshot"
+                          >
+                            →
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  </div>
+                    )}
+                  </>
                 ) : (
                   <div
                     className="grid-bg flex items-center justify-center"
@@ -213,17 +308,14 @@ export default function ProjectsShowcase() {
                 {project.description}
               </p>
 
-              {/* Tech tags */}
               <div className="flex flex-wrap gap-1.5">
                 {project.techTags.map((tag) => (
                   <CategoryTag key={tag} label={tag} variant="tech" />
                 ))}
               </div>
 
-              {/* Divider */}
               <div style={{ height: "1px", background: "var(--border-subtle)" }} />
 
-              {/* CTA */}
               <a
                 href={project.url}
                 target="_blank"
@@ -290,7 +382,7 @@ export default function ProjectsShowcase() {
 
       {/* Lightbox */}
       <AnimatePresence>
-        {lightboxOpen && project.screenshot && (
+        {lightboxOpen && currentScreenshot && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -300,11 +392,12 @@ export default function ProjectsShowcase() {
             className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-10"
             style={{ background: "rgba(4,6,9,0.92)", backdropFilter: "blur(8px)", cursor: "zoom-out" }}
           >
-            {/* Close button */}
             <button
               onClick={() => setLightboxOpen(false)}
-              className="absolute top-5 right-5 flex items-center gap-2"
               style={{
+                position: "absolute",
+                top: "20px",
+                right: "20px",
                 background: "none",
                 border: "1px solid var(--border-card)",
                 color: "var(--text-muted)",
@@ -342,7 +435,7 @@ export default function ProjectsShowcase() {
               }}
             >
               <Image
-                src={project.screenshot}
+                src={currentScreenshot}
                 alt={`${project.title} screenshot`}
                 width={0}
                 height={0}

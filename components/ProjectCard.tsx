@@ -53,9 +53,9 @@ export default function ProjectCard({ project, index, featured = false }: Projec
           background: "var(--bg-surface)",
         }}
       >
-        {project.screenshot ? (
+        {project.screenshots?.[0] ? (
           <Image
-            src={project.screenshot}
+            src={project.screenshots[0]}
             alt={`${project.title} screenshot`}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -82,7 +82,7 @@ export default function ProjectCard({ project, index, featured = false }: Projec
           {String(project.id).padStart(2, "0")}
         </div>
         {/* Subtle gradient fade at the bottom of the image */}
-        {project.screenshot && (
+        {project.screenshots?.[0] && (
           <div
             className="absolute bottom-0 left-0 right-0 h-12 z-10"
             style={{
