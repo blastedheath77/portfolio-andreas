@@ -297,16 +297,47 @@ export default function ProjectsShowcase() {
                 </h2>
               </div>
 
-              <p
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: "0.8rem",
-                  color: "var(--text-secondary)",
-                  lineHeight: 1.85,
-                }}
-              >
-                {project.description}
-              </p>
+              <div>
+                <p
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: "0.8rem",
+                    color: "var(--text-secondary)",
+                    lineHeight: 1.85,
+                  }}
+                >
+                  {project.description}
+                </p>
+                {project.inspiration && (
+                  <p
+                    style={{
+                      fontFamily: "var(--font-mono)",
+                      fontSize: "0.8rem",
+                      color: "var(--text-secondary)",
+                      lineHeight: 1.85,
+                      marginTop: "0.75rem",
+                    }}
+                  >
+                    Inspired by{" "}
+                    <a
+                      href={project.inspiration.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        color: "var(--accent)",
+                        textDecoration: "none",
+                        borderBottom: "1px solid rgba(0,245,255,0.3)",
+                        transition: "border-color 0.2s",
+                      }}
+                      onMouseEnter={(e) => (e.currentTarget.style.borderColor = "var(--accent)")}
+                      onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(0,245,255,0.3)")}
+                    >
+                      {project.inspiration.label}
+                    </a>
+                    .
+                  </p>
+                )}
+              </div>
 
               <div className="flex flex-wrap gap-1.5">
                 {project.techTags.map((tag) => (

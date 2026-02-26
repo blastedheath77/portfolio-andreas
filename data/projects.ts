@@ -7,6 +7,7 @@ export interface Project {
   techTags: string[];
   screenshots?: string[];
   screenshotMaxWidth?: string;
+  inspiration?: { label: string; url: string };
 }
 
 export const projects: Project[] = [
@@ -42,6 +43,10 @@ export const projects: Project[] = [
       "/screenshots/LearningFMSynthesis1.png",
       "/screenshots/Learning_FM_synthesis2.png",
     ],
+    inspiration: {
+      label: "Ableton Learning Synths",
+      url: "https://learningsynths.ableton.com/",
+    },
   },
   {
     id: 4,
