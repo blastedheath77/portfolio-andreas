@@ -50,6 +50,16 @@ export const projects: Project[] = [
   },
   {
     id: 4,
+    title: "Python Loops — An Interactive Guide",
+    category: "Programming Education",
+    description:
+      "An interactive guide for learning Python loops from scratch — no prior programming experience required. Covers while and for loops across 10 progressive pages with animated widgets, real-time variable tracking, drag-and-drop code challenges, quizzes, bug-spotting exercises, and a robot maze final challenge.",
+    url: "https://python-loops.vercel.app/",
+    techTags: ["HTML", "CSS", "JavaScript", "Interactive Learning"],
+    screenshots: ["/screenshots/python_loops.png"],
+  },
+  {
+    id: 5,
     title: "Tone Game",
     category: "Audio Training",
     description:
@@ -60,7 +70,7 @@ export const projects: Project[] = [
     screenshotMaxWidth: "40%",
   },
   {
-    id: 5,
+    id: 6,
     title: "FM Synth Trainer",
     category: "Audio Education",
     description:
@@ -70,7 +80,7 @@ export const projects: Project[] = [
     screenshots: ["/screenshots/FMsynthTrainer.png"],
   },
   {
-    id: 6,
+    id: 7,
     title: "Signal Flow Diagram App",
     category: "Sound Education",
     description:
@@ -80,7 +90,7 @@ export const projects: Project[] = [
     screenshots: ["/screenshots/SignalFlow.png"],
   },
   {
-    id: 7,
+    id: 8,
     title: "Lighting Simulator",
     category: "Education — Lighting",
     description:
@@ -90,7 +100,7 @@ export const projects: Project[] = [
     screenshots: ["/screenshots/Lightatron.png"],
   },
   {
-    id: 8,
+    id: 9,
     title: "Pickleball Stats Tracker",
     category: "Community App",
     description:
