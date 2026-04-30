@@ -33,33 +33,16 @@ export const projects: Project[] = [
   },
   {
     id: 3,
-    title: "Learning FM Synthesis",
-    category: "Audio Education",
+    title: "Interactive Learning Tools",
+    category: "Educational Platform",
     description:
-      "An interactive learning platform for understanding FM synthesis from the ground up. Guides students through the theory and practice of frequency modulation synthesis with hands-on controls, visual feedback, and real-time audio output — making complex synthesis concepts accessible and engaging for music technology and sound production students.",
-    url: "https://learning-fm-synthesis.vercel.app/",
-    techTags: ["React", "Web Audio API", "FM Synthesis", "Interactive Learning"],
-    screenshots: [
-      "/screenshots/LearningFMSynthesis1.png",
-      "/screenshots/Learning_FM_synthesis2.png",
-    ],
-    inspiration: {
-      label: "Ableton Learning Synths",
-      url: "https://learningsynths.ableton.com/",
-    },
+      "A collection of browser-based interactive learning modules built for New College Lanarkshire, covering engineering, programming, design, music, photography, and AI literacy. Each module uses animated diagrams, live controls, and step-through simulations to make complex subjects tangible — no installs or accounts required.",
+    url: "https://leaning-website-portfolio.vercel.app/",
+    techTags: ["HTML", "CSS", "JavaScript", "Interactive Learning"],
+    screenshots: ["/screenshots/leaning_website_portfolio.png"],
   },
   {
     id: 4,
-    title: "Python Loops — An Interactive Guide",
-    category: "Programming Education",
-    description:
-      "An interactive guide for learning Python loops from scratch — no prior programming experience required. Covers while and for loops across 10 progressive pages with animated widgets, real-time variable tracking, drag-and-drop code challenges, quizzes, bug-spotting exercises, and a robot maze final challenge.",
-    url: "https://python-loops.vercel.app/",
-    techTags: ["HTML", "CSS", "JavaScript", "Interactive Learning"],
-    screenshots: ["/screenshots/python_loops.png"],
-  },
-  {
-    id: 5,
     title: "Tone Game",
     category: "Audio Training",
     description:
@@ -70,7 +53,7 @@ export const projects: Project[] = [
     screenshotMaxWidth: "40%",
   },
   {
-    id: 6,
+    id: 5,
     title: "FM Synth Trainer",
     category: "Audio Education",
     description:
@@ -80,7 +63,7 @@ export const projects: Project[] = [
     screenshots: ["/screenshots/FMsynthTrainer.png"],
   },
   {
-    id: 7,
+    id: 6,
     title: "Signal Flow Diagram App",
     category: "Sound Education",
     description:
@@ -90,7 +73,7 @@ export const projects: Project[] = [
     screenshots: ["/screenshots/SignalFlow.png"],
   },
   {
-    id: 8,
+    id: 7,
     title: "Lighting Simulator",
     category: "Education — Lighting",
     description:
@@ -100,7 +83,7 @@ export const projects: Project[] = [
     screenshots: ["/screenshots/Lightatron.png"],
   },
   {
-    id: 9,
+    id: 8,
     title: "Pickleball Stats Tracker",
     category: "Community App",
     description:
