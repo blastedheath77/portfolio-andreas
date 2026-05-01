@@ -458,7 +458,7 @@ export default function ProjectsShowcase() {
               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
               onClick={(e) => e.stopPropagation()}
               style={{
-                maxWidth: "min(90vw, 1400px)",
+                width: "min(95vw, 1800px)",
                 maxHeight: "90vh",
                 overflow: "auto",
                 border: "1px solid var(--border-card)",
