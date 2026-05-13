@@ -38,9 +38,10 @@ export default function ProjectsShowcase() {
       <div
         className="sticky top-0 z-20 w-full overflow-x-auto"
         style={{
-          background: "rgba(8,10,14,0.92)",
+          background: "rgba(253,250,246,0.96)",
           backdropFilter: "blur(12px)",
           borderBottom: "1px solid var(--border-subtle)",
+          boxShadow: "0 1px 0 var(--border-subtle)",
         }}
       >
         <div className="flex min-w-max px-6 md:px-12 lg:px-20">
@@ -53,21 +54,30 @@ export default function ProjectsShowcase() {
                 onClick={() => handleTabChange(i)}
                 onMouseEnter={() => setHoveredTab(i)}
                 onMouseLeave={() => setHoveredTab(null)}
-                className="relative flex items-center gap-2.5 px-5 py-4 flex-shrink-0"
+                className="relative flex items-center gap-2.5 px-4 py-4 flex-shrink-0"
                 style={{
-                  background: isHovered && !isActive ? "rgba(0,245,255,0.04)" : "transparent",
+                  background: "transparent",
                   border: "none",
                   cursor: "pointer",
-                  color: isActive || isHovered ? "var(--text-primary)" : "var(--text-muted)",
-                  transition: "background 0.2s, color 0.2s",
+                  color: isActive
+                    ? "var(--text-primary)"
+                    : isHovered
+                    ? "var(--text-secondary)"
+                    : "var(--text-muted)",
+                  transition: "color 0.2s",
                 }}
               >
                 <span
                   style={{
-                    fontFamily: "var(--font-mono)",
+                    fontFamily: "var(--font-body)",
+                    fontWeight: 500,
                     fontSize: "0.65rem",
-                    color: isActive ? "var(--accent)" : isHovered ? "rgba(0,245,255,0.6)" : "var(--text-muted)",
-                    letterSpacing: "0.08em",
+                    color: isActive
+                      ? "var(--accent)"
+                      : isHovered
+                      ? "rgba(196,93,42,0.6)"
+                      : "var(--text-muted)",
+                    letterSpacing: "0.06em",
                     transition: "color 0.2s",
                   }}
                 >
@@ -75,7 +85,7 @@ export default function ProjectsShowcase() {
                 </span>
                 <span
                   style={{
-                    fontFamily: "var(--font-syne)",
+                    fontFamily: "var(--font-body)",
                     fontWeight: isActive ? 600 : 400,
                     fontSize: "0.85rem",
                     whiteSpace: "nowrap",
@@ -87,15 +97,9 @@ export default function ProjectsShowcase() {
                 {isActive && (
                   <motion.div
                     layoutId="tab-indicator"
-                    className="absolute bottom-0 left-0 right-0 h-px"
+                    className="absolute bottom-0 left-0 right-0 h-0.5"
                     style={{ background: "var(--accent)" }}
                     transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                  />
-                )}
-                {isHovered && !isActive && (
-                  <div
-                    className="absolute bottom-0 left-0 right-0 h-px"
-                    style={{ background: "rgba(0,245,255,0.3)" }}
                   />
                 )}
               </button>
@@ -105,28 +109,28 @@ export default function ProjectsShowcase() {
       </div>
 
       {/* Content panel */}
-      <div className="px-6 md:px-12 lg:px-20 py-10">
+      <div className="px-6 md:px-12 lg:px-20 py-12">
         <AnimatePresence mode="wait">
           <motion.div
             key={active}
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-16 items-start"
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-16 items-start"
           >
             {/* Screenshot — 3/5 width on desktop */}
             <div className="lg:col-span-3">
               <div
-                className="relative w-full overflow-hidden"
+                className="relative w-full overflow-hidden rounded-lg"
                 style={{
                   background: "var(--bg-surface)",
                   border: "1px solid var(--border-card)",
+                  boxShadow: "0 4px 24px rgba(90,60,30,0.08), 0 1px 4px rgba(90,60,30,0.06)",
                 }}
               >
                 {currentScreenshot ? (
                   <>
-                    {/* Image + expand overlay */}
                     <AnimatePresence mode="wait">
                       <motion.div
                         key={screenshotIndex}
@@ -159,21 +163,23 @@ export default function ProjectsShowcase() {
                         />
                         {/* Expand hint */}
                         <div
-                          className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-200"
-                          style={{ background: "rgba(8,10,14,0.45)" }}
+                          className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-200 rounded-lg"
+                          style={{ background: "rgba(28,20,16,0.28)" }}
                         >
                           <div
                             style={{
                               display: "flex",
                               alignItems: "center",
                               gap: "8px",
-                              fontFamily: "var(--font-mono)",
-                              fontSize: "0.7rem",
-                              color: "var(--accent)",
-                              letterSpacing: "0.12em",
+                              fontFamily: "var(--font-body)",
+                              fontWeight: 500,
+                              fontSize: "0.72rem",
+                              color: "#fff",
+                              letterSpacing: "0.1em",
                               textTransform: "uppercase",
-                              border: "1px solid rgba(0,245,255,0.4)",
-                              padding: "8px 16px",
+                              background: "rgba(196,93,42,0.9)",
+                              padding: "8px 18px",
+                              borderRadius: "4px",
                             }}
                           >
                             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -188,10 +194,9 @@ export default function ProjectsShowcase() {
                     {/* Arrow navigation */}
                     {hasMultiple && (
                       <div
-                        className="flex items-center justify-between px-3 py-2"
+                        className="flex items-center justify-between px-4 py-2.5"
                         style={{ borderTop: "1px solid var(--border-subtle)" }}
                       >
-                        {/* Dot indicators */}
                         <div className="flex items-center gap-1.5">
                           {screenshots.map((_, i) => (
                             <button
@@ -201,7 +206,7 @@ export default function ProjectsShowcase() {
                                 width: i === screenshotIndex ? "16px" : "6px",
                                 height: "6px",
                                 borderRadius: "3px",
-                                background: i === screenshotIndex ? "var(--accent)" : "var(--text-muted)",
+                                background: i === screenshotIndex ? "var(--accent)" : "var(--bg-card)",
                                 border: "none",
                                 cursor: "pointer",
                                 padding: 0,
@@ -211,28 +216,29 @@ export default function ProjectsShowcase() {
                             />
                           ))}
                         </div>
-
-                        {/* Prev / Next */}
                         <div className="flex items-center gap-1">
                           <button
                             onClick={prevScreenshot}
                             style={{
-                              background: "none",
+                              background: "var(--bg-base)",
                               border: "1px solid var(--border-card)",
                               color: "var(--text-muted)",
                               cursor: "pointer",
                               padding: "4px 10px",
-                              fontFamily: "var(--font-mono)",
-                              fontSize: "0.75rem",
-                              transition: "color 0.2s, border-color 0.2s",
+                              fontFamily: "var(--font-body)",
+                              fontSize: "0.8rem",
+                              borderRadius: "4px",
+                              transition: "color 0.2s, border-color 0.2s, background 0.2s",
                             }}
                             onMouseEnter={(e) => {
                               e.currentTarget.style.color = "var(--accent)";
                               e.currentTarget.style.borderColor = "var(--accent)";
+                              e.currentTarget.style.background = "var(--accent-light)";
                             }}
                             onMouseLeave={(e) => {
                               e.currentTarget.style.color = "var(--text-muted)";
                               e.currentTarget.style.borderColor = "var(--border-card)";
+                              e.currentTarget.style.background = "var(--bg-base)";
                             }}
                             aria-label="Previous screenshot"
                           >
@@ -241,22 +247,25 @@ export default function ProjectsShowcase() {
                           <button
                             onClick={nextScreenshot}
                             style={{
-                              background: "none",
+                              background: "var(--bg-base)",
                               border: "1px solid var(--border-card)",
                               color: "var(--text-muted)",
                               cursor: "pointer",
                               padding: "4px 10px",
-                              fontFamily: "var(--font-mono)",
-                              fontSize: "0.75rem",
-                              transition: "color 0.2s, border-color 0.2s",
+                              fontFamily: "var(--font-body)",
+                              fontSize: "0.8rem",
+                              borderRadius: "4px",
+                              transition: "color 0.2s, border-color 0.2s, background 0.2s",
                             }}
                             onMouseEnter={(e) => {
                               e.currentTarget.style.color = "var(--accent)";
                               e.currentTarget.style.borderColor = "var(--accent)";
+                              e.currentTarget.style.background = "var(--accent-light)";
                             }}
                             onMouseLeave={(e) => {
                               e.currentTarget.style.color = "var(--text-muted)";
                               e.currentTarget.style.borderColor = "var(--border-card)";
+                              e.currentTarget.style.background = "var(--bg-base)";
                             }}
                             aria-label="Next screenshot"
                           >
@@ -268,10 +277,16 @@ export default function ProjectsShowcase() {
                   </>
                 ) : (
                   <div
-                    className="grid-bg flex items-center justify-center"
+                    className="flex items-center justify-center"
                     style={{ minHeight: "300px" }}
                   >
-                    <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.75rem", color: "var(--text-muted)", letterSpacing: "0.1em" }}>
+                    <span
+                      style={{
+                        fontFamily: "var(--font-body)",
+                        fontSize: "0.8rem",
+                        color: "var(--text-muted)",
+                      }}
+                    >
                       Screenshot coming soon
                     </span>
                   </div>
@@ -285,10 +300,10 @@ export default function ProjectsShowcase() {
                 <CategoryTag label={project.category} variant="category" />
                 <h2
                   style={{
-                    fontFamily: "var(--font-syne)",
-                    fontWeight: 800,
-                    fontSize: "clamp(1.6rem, 3vw, 2.4rem)",
-                    letterSpacing: "-0.02em",
+                    fontFamily: "var(--font-display)",
+                    fontWeight: 400,
+                    fontSize: "clamp(1.8rem, 3vw, 2.6rem)",
+                    letterSpacing: "-0.01em",
                     lineHeight: 1.1,
                     color: "var(--text-primary)",
                   }}
@@ -300,10 +315,11 @@ export default function ProjectsShowcase() {
               <div>
                 <p
                   style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: "0.8rem",
+                    fontFamily: "var(--font-body)",
+                    fontWeight: 400,
+                    fontSize: "0.9rem",
                     color: "var(--text-secondary)",
-                    lineHeight: 1.85,
+                    lineHeight: 1.8,
                   }}
                 >
                   {project.description}
@@ -311,10 +327,10 @@ export default function ProjectsShowcase() {
                 {project.inspiration && (
                   <p
                     style={{
-                      fontFamily: "var(--font-mono)",
-                      fontSize: "0.8rem",
+                      fontFamily: "var(--font-body)",
+                      fontSize: "0.9rem",
                       color: "var(--text-secondary)",
-                      lineHeight: 1.85,
+                      lineHeight: 1.8,
                       marginTop: "0.75rem",
                     }}
                   >
@@ -326,11 +342,11 @@ export default function ProjectsShowcase() {
                       style={{
                         color: "var(--accent)",
                         textDecoration: "none",
-                        borderBottom: "1px solid rgba(0,245,255,0.3)",
+                        borderBottom: "1px solid rgba(196,93,42,0.3)",
                         transition: "border-color 0.2s",
                       }}
                       onMouseEnter={(e) => (e.currentTarget.style.borderColor = "var(--accent)")}
-                      onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(0,245,255,0.3)")}
+                      onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(196,93,42,0.3)")}
                     >
                       {project.inspiration.label}
                     </a>
@@ -351,24 +367,24 @@ export default function ProjectsShowcase() {
                 href={project.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 self-start"
+                className="inline-flex items-center gap-3 self-start rounded"
                 style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: "0.78rem",
-                  color: "var(--accent)",
+                  fontFamily: "var(--font-body)",
+                  fontWeight: 600,
+                  fontSize: "0.82rem",
+                  color: "#fff",
                   textDecoration: "none",
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  padding: "10px 20px",
-                  border: "1px solid rgba(0,245,255,0.3)",
+                  letterSpacing: "0.04em",
+                  background: "var(--accent)",
+                  padding: "10px 22px",
                   transition: "background 0.2s, box-shadow 0.2s",
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "rgba(0,245,255,0.06)";
-                  e.currentTarget.style.boxShadow = "0 0 20px rgba(0,245,255,0.12)";
+                  e.currentTarget.style.background = "var(--accent-hover)";
+                  e.currentTarget.style.boxShadow = "0 4px 16px rgba(196,93,42,0.3)";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "transparent";
+                  e.currentTarget.style.background = "var(--accent)";
                   e.currentTarget.style.boxShadow = "none";
                 }}
               >
@@ -389,22 +405,24 @@ export default function ProjectsShowcase() {
         <div
           className="mt-12 flex items-center gap-4"
           style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: "0.65rem",
+            fontFamily: "var(--font-body)",
+            fontWeight: 500,
+            fontSize: "0.72rem",
             color: "var(--text-muted)",
-            letterSpacing: "0.15em",
+            letterSpacing: "0.1em",
           }}
         >
           <span style={{ color: "var(--accent)" }}>{String(active + 1).padStart(2, "0")}</span>
           <span>/</span>
           <span>{String(projects.length).padStart(2, "0")}</span>
-          <div style={{ flex: 1, height: "1px", background: "var(--border-subtle)", maxWidth: "120px" }}>
+          <div style={{ flex: 1, height: "2px", background: "var(--bg-card)", maxWidth: "120px", borderRadius: "2px" }}>
             <div
               style={{
                 height: "100%",
                 background: "var(--accent)",
                 width: `${((active + 1) / projects.length) * 100}%`,
                 transition: "width 0.4s ease",
+                borderRadius: "2px",
               }}
             />
           </div>
@@ -421,7 +439,7 @@ export default function ProjectsShowcase() {
             transition={{ duration: 0.2 }}
             onClick={() => setLightboxOpen(false)}
             className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-10"
-            style={{ background: "rgba(4,6,9,0.92)", backdropFilter: "blur(8px)", cursor: "zoom-out" }}
+            style={{ background: "rgba(28,20,16,0.88)", backdropFilter: "blur(8px)", cursor: "zoom-out" }}
           >
             <button
               onClick={() => setLightboxOpen(false)}
@@ -429,40 +447,42 @@ export default function ProjectsShowcase() {
                 position: "absolute",
                 top: "20px",
                 right: "20px",
-                background: "none",
-                border: "1px solid var(--border-card)",
-                color: "var(--text-muted)",
-                fontFamily: "var(--font-mono)",
-                fontSize: "0.7rem",
+                background: "rgba(253,250,246,0.95)",
+                border: "none",
+                color: "var(--text-secondary)",
+                fontFamily: "var(--font-body)",
+                fontWeight: 500,
+                fontSize: "0.72rem",
                 letterSpacing: "0.1em",
-                padding: "6px 12px",
+                padding: "6px 14px",
                 cursor: "pointer",
-                transition: "color 0.2s, border-color 0.2s",
+                borderRadius: "4px",
+                transition: "color 0.2s, background 0.2s",
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.color = "var(--accent)";
-                e.currentTarget.style.borderColor = "var(--accent)";
+                e.currentTarget.style.background = "#fff";
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.color = "var(--text-muted)";
-                e.currentTarget.style.borderColor = "var(--border-card)";
+                e.currentTarget.style.color = "var(--text-secondary)";
+                e.currentTarget.style.background = "rgba(253,250,246,0.95)";
               }}
             >
               ESC
             </button>
 
             <motion.div
-              initial={{ scale: 0.92, opacity: 0 }}
+              initial={{ scale: 0.94, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
+              exit={{ scale: 0.96, opacity: 0 }}
               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
               onClick={(e) => e.stopPropagation()}
               style={{
                 width: "min(95vw, 1800px)",
                 maxHeight: "90vh",
                 overflow: "auto",
-                border: "1px solid var(--border-card)",
-                boxShadow: "0 0 80px rgba(0,245,255,0.06)",
+                borderRadius: "8px",
+                boxShadow: "0 24px 80px rgba(28,20,16,0.5)",
               }}
             >
               <Image
@@ -471,7 +491,7 @@ export default function ProjectsShowcase() {
                 width={0}
                 height={0}
                 sizes="90vw"
-                style={{ width: "100%", height: "auto", display: "block" }}
+                style={{ width: "100%", height: "auto", display: "block", borderRadius: "8px" }}
               />
             </motion.div>
           </motion.div>

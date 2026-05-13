@@ -9,11 +9,12 @@ export default function CategoryTag({ label, variant = "tech" }: CategoryTagProp
   if (variant === "category") {
     return (
       <span
-        className="inline-flex items-center px-2.5 py-0.5 text-xs tracking-widest uppercase"
+        className="inline-flex items-center px-2.5 py-1 text-xs tracking-widest uppercase rounded-sm"
         style={{
           color: "var(--accent)",
-          border: "1px solid rgba(0, 245, 255, 0.3)",
-          fontFamily: "var(--font-mono)",
+          background: "var(--accent-light)",
+          fontFamily: "var(--font-body)",
+          fontWeight: 600,
           letterSpacing: "0.12em",
         }}
       >
@@ -24,13 +25,14 @@ export default function CategoryTag({ label, variant = "tech" }: CategoryTagProp
 
   return (
     <span
-      className="inline-flex items-center px-2 py-0.5 text-xs"
+      className="inline-flex items-center px-2.5 py-0.5 text-xs rounded-sm"
       style={{
         color: "var(--text-secondary)",
-        background: "rgba(255,255,255,0.04)",
+        background: "var(--bg-card)",
         border: "1px solid var(--border-card)",
-        fontFamily: "var(--font-mono)",
-        letterSpacing: "0.03em",
+        fontFamily: "var(--font-body)",
+        fontWeight: 400,
+        letterSpacing: "0.02em",
       }}
     >
       {label}
