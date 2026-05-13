@@ -4,76 +4,32 @@ import { motion } from "framer-motion";
 
 export default function Hero() {
   return (
-    <section
-      className="relative w-full flex flex-col items-start justify-center overflow-hidden scanlines px-6 md:px-12 lg:px-20 py-16 md:py-20"
-    >
-      {/* Background: drifting gradient blobs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Grid */}
-        <div className="grid-bg absolute inset-0 opacity-100" />
-
-        {/* Blob 1 — cyan */}
-        <div
-          className="animate-drift absolute rounded-full blur-3xl"
-          style={{
-            width: "60vw",
-            height: "60vw",
-            top: "-20%",
-            left: "-15%",
-            background:
-              "radial-gradient(ellipse, rgba(0,245,255,0.07) 0%, transparent 70%)",
-          }}
-        />
-        {/* Blob 2 — indigo hint */}
-        <div
-          className="animate-drift2 absolute rounded-full blur-3xl"
-          style={{
-            width: "50vw",
-            height: "50vw",
-            bottom: "-15%",
-            right: "-10%",
-            background:
-              "radial-gradient(ellipse, rgba(80,60,200,0.06) 0%, transparent 70%)",
-          }}
-        />
-      </div>
-
-      {/* Top-right corner decoration */}
+    <section className="relative w-full px-6 md:px-12 lg:px-20 py-16 md:py-24">
+      {/* Warm accent bar */}
       <div
-        className="absolute top-8 right-8 md:top-12 md:right-12 text-right hidden sm:block"
-        style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: "0.65rem",
-          color: "var(--text-muted)",
-          letterSpacing: "0.12em",
-        }}
-      >
-        <div>AJ / 2025</div>
-        <div
-          className="mt-1 h-px w-16 ml-auto"
-          style={{ background: "var(--text-muted)" }}
-        />
-      </div>
+        className="absolute top-0 left-0 right-0 h-1"
+        style={{ background: "var(--accent)" }}
+      />
 
-      {/* Main content */}
-      <div className="relative z-10 max-w-5xl">
+      <div className="max-w-3xl">
         {/* Label */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
+          transition={{ duration: 0.45, ease: "easeOut" }}
           className="flex items-center gap-3 mb-8"
         >
           <div
-            className="h-px w-8"
+            className="h-px w-6"
             style={{ background: "var(--accent)" }}
           />
           <span
             style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "0.7rem",
+              fontFamily: "var(--font-body)",
+              fontWeight: 500,
+              fontSize: "0.72rem",
               color: "var(--accent)",
-              letterSpacing: "0.2em",
+              letterSpacing: "0.18em",
               textTransform: "uppercase",
             }}
           >
@@ -83,40 +39,38 @@ export default function Hero() {
 
         {/* Headline */}
         <motion.h1
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.55, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
           style={{
-            fontFamily: "var(--font-syne)",
-            fontWeight: 800,
-            lineHeight: 1,
-            letterSpacing: "-0.03em",
+            fontFamily: "var(--font-display)",
+            fontWeight: 400,
+            lineHeight: 1.05,
+            letterSpacing: "-0.01em",
             color: "var(--text-primary)",
           }}
-          className="text-4xl sm:text-5xl md:text-6xl mb-4"
+          className="text-5xl sm:text-6xl md:text-7xl mb-5"
         >
           Built with{" "}
-          <span
-            className="text-glow"
-            style={{ color: "var(--accent)" }}
-          >
+          <em style={{ color: "var(--accent)", fontStyle: "italic" }}>
             Claude Code
-          </span>
+          </em>
         </motion.h1>
 
         {/* Sub-headline */}
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.3, ease: "easeOut" }}
+          transition={{ duration: 0.5, delay: 0.25, ease: "easeOut" }}
           style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: "clamp(0.9rem, 2vw, 1.1rem)",
+            fontFamily: "var(--font-body)",
+            fontWeight: 400,
+            fontSize: "clamp(1rem, 2vw, 1.15rem)",
             color: "var(--text-secondary)",
             lineHeight: 1.7,
-            maxWidth: "560px",
+            maxWidth: "480px",
           }}
-          className="mb-4"
+          className="mb-6"
         >
           A collection of web applications for education and community
         </motion.p>
@@ -125,25 +79,23 @@ export default function Hero() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.45 }}
+          transition={{ duration: 0.45, delay: 0.4 }}
           style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: "0.75rem",
+            fontFamily: "var(--font-body)",
+            fontWeight: 500,
+            fontSize: "0.8rem",
             color: "var(--text-muted)",
-            letterSpacing: "0.1em",
+            letterSpacing: "0.06em",
           }}
         >
           Andreas Jonsson
         </motion.div>
       </div>
 
-      {/* Bottom divider line */}
+      {/* Bottom divider */}
       <div
         className="absolute bottom-0 left-0 right-0 h-px"
-        style={{
-          background:
-            "linear-gradient(90deg, transparent, var(--border-subtle) 20%, var(--border-subtle) 80%, transparent)",
-        }}
+        style={{ background: "var(--border-subtle)" }}
       />
     </section>
   );

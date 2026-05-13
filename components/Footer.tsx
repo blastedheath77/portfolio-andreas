@@ -17,10 +17,10 @@ export default function Footer() {
       >
         <p
           style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: "0.72rem",
+            fontFamily: "var(--font-body)",
+            fontWeight: 400,
+            fontSize: "0.8rem",
             color: "var(--text-muted)",
-            letterSpacing: "0.04em",
           }}
         >
           Built by Andreas Jonsson using{" "}
@@ -31,23 +31,16 @@ export default function Footer() {
             style={{
               color: "var(--accent)",
               textDecoration: "none",
-              opacity: 0.8,
-              transition: "opacity 0.2s",
+              borderBottom: "1px solid rgba(196,93,42,0.3)",
+              transition: "border-color 0.2s",
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
-            onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.8")}
+            onMouseEnter={(e) => (e.currentTarget.style.borderColor = "var(--accent)")}
+            onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(196,93,42,0.3)")}
           >
             Claude Code
           </a>{" "}
           · 2025
         </p>
-
-        <div
-          className="h-px w-16"
-          style={{
-            background: "linear-gradient(90deg, var(--border-subtle), transparent)",
-          }}
-        />
       </motion.div>
     </footer>
   );
